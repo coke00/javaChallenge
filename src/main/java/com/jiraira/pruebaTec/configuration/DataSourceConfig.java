@@ -1,5 +1,6 @@
 package com.jiraira.pruebaTec.configuration;
 
+import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,5 +25,11 @@ public class DataSourceConfig {
         dataSource.setUsername(dataSourceUsername);
         dataSource.setPassword(dataSourcePassword);
         return dataSource;
+    }
+    @Bean
+    public Flyway flyway() {
+        Flyway flyway = Flyway.configure().dataSource(dataSource()).load();
+        flyway.migrate();
+        return flyway;
     }
 }
