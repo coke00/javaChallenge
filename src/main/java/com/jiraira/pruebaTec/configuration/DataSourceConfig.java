@@ -26,6 +26,7 @@ public class DataSourceConfig {
         dataSource.setPassword(dataSourcePassword);
         return dataSource;
     }
+
     @Bean
     public Flyway flyway() {
         Flyway flyway = Flyway.configure().dataSource(dataSource()).load();

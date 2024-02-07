@@ -28,15 +28,15 @@ class PriceRepositoryTest {
 
     @Test
     void findPriceByProductIdBrandIdAndApplicationDate() {
-        Price price = new Price();
-        price.setProductId(35455);
-        price.setBrandId(1);
-        price.setStartDate(LocalDateTime.parse("2020-06-13T00:00:00"));
-        price.setEndDate(LocalDateTime.parse("2020-12-31T23:59:59"));
-        price.setPriceList(1);
-        price.setPriority(0);
-        price.setPrice(new BigDecimal("35.50"));
-        price.setCurr("EUR");
+        Price price = Price.builder().productId(35455)
+                .brandId(1)
+                .startDate(LocalDateTime.parse("2020-06-13T00:00:00"))
+                .endDate(LocalDateTime.parse("2020-12-31T23:59:59"))
+                .priceList(1)
+                .priority(0)
+                .price(new BigDecimal("35.50"))
+                .curr("EUR")
+                .build();
         entityManager.persist(price);
         entityManager.flush();
 
