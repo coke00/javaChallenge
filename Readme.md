@@ -267,7 +267,6 @@ swagger/openapi.json
 
 Acceder a __endpoint__ Health
 
-``
+```
 http://localhost:8080/actuator/health
-
-``
+```
