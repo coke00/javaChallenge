@@ -257,6 +257,7 @@ Ubicación de swagger.
 ``
 http://localhost:8080/swagger-ui/index.html
 ``
+
 Ubicación de openapi.json, se extrajo código y anotaciones de swagger para limpiar el código innecesario
 ```
 swagger/openapi.json
@@ -264,3 +265,9 @@ swagger/openapi.json
 
 #### Health Checker
 
+Acceder a __endpoint__ Health
+
+``
+http://localhost:8080/actuator/health
+
+``
