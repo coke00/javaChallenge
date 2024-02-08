@@ -1,4 +1,4 @@
-package com.jiraira.pruebaTec.infraestructure.adapter.web.config;
+package com.jiraira.pruebaTec.infraestructure.configuration;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

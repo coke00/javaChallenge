@@ -251,3 +251,16 @@ Vulnerabilidades conocidas y evaluadas con __Snyk.io__
 
 ![img.png](assets_readme/img.png)
 
+#### Swagger
+Ubicación de swagger.
+
+``
+http://localhost:8080/swagger-ui/index.html
+``
+Ubicación de openapi.json, se extrajo código y anotaciones de swagger para limpiar el código innecesario
+```
+swagger/openapi.json
+```
+
+#### Health Checker
+

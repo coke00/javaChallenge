@@ -22,6 +22,7 @@
         <h2.version>2.2.224</h2.version>
         <flyway.version>10.7.1</flyway.version>
         <jacoco.version>0.8.7</jacoco.version>
+        <openapi.version>2.3.0</openapi.version>
     </properties>
     <dependencies>
         <dependency>
@@ -66,6 +67,11 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-datatype.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${openapi.version}</version>
         </dependency>
     </dependencies>
     <build>
