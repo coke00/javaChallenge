@@ -1,7 +1,8 @@
 package com.jiraira.pruebaTec.application.service;
 
 import com.jiraira.pruebaTec.application.dto.Price;
-import com.jiraira.pruebaTec.domain.port.PriceService;
+import com.jiraira.pruebaTec.domain.exception.PriceNotFoundException;
+import com.jiraira.pruebaTec.domain.service.PriceService;
 import com.jiraira.pruebaTec.infraestructure.adapter.repository.PriceRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,11 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public Optional<Price> findApplicablePrice(Integer productId, Integer brandId, LocalDateTime applicationDate) {
+    public Optional<Price> findApplicablePrice(Integer productId, Integer brandId, LocalDateTime applicationDate) throws PriceNotFoundException {
 
-        return priceRepository.findPriceByProductIdBrandIdAndApplicationDate(productId, brandId, applicationDate).stream().max(Comparator.comparing(Price::getPriority));
+        return Optional.ofNullable(priceRepository.findPriceByProductIdBrandIdAndApplicationDate(productId, brandId, applicationDate)
+                .stream()
+                .max(Comparator.comparing(Price::getPriority))
+                .orElseThrow(() -> new PriceNotFoundException("Applicable price not found for productId: " + productId + ", brandId: " + brandId + ", and date: " + applicationDate)));
     }
 }

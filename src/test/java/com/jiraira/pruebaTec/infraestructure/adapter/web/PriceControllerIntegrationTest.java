@@ -14,8 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -154,6 +153,80 @@ class PriceControllerIntegrationTest {
                 .andExpect(jsonPath("$.startDate").value("2020-06-15 16:00:00"))
                 .andExpect(jsonPath("$.endDate").value("2020-12-31 23:59:59"))
                 .andExpect(jsonPath("$.price").value("38.95"));
+    }
+
+    @Test
+    void whenFindApplicablePrice_thenReturnThrowPriceNotFound() throws Exception {
+        LocalDateTime applicationDate = LocalDateTime.of(2024, 2, 6, 10, 0);
+        int productId = 1;
+        int brandId = 2;
+
+        mockMvc.perform(get("/prices")
+                        .param("applicationDate", applicationDate.toString())
+                        .param("productId", Integer.toString(productId))
+                        .param("brandId", Integer.toString(brandId)))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
+                .andExpect(content().string("Price not found: Applicable price not found for productId: 1, brandId: 2, and date: 2024-02-06T10:00"));
+
+    }
+
+    @Test
+    void whenFindApplicablePrice_thenReturnThrowExceptionWhenBrandIdIsMissing() throws Exception {
+        LocalDateTime applicationDate = LocalDateTime.of(2024, 2, 6, 10, 0);
+        int productId = 1;
+
+        mockMvc.perform(get("/prices")
+                        .param("applicationDate", applicationDate.toString())
+                        .param("productId", Integer.toString(productId)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
+                .andExpect(content().string("An unexpected error occurred: Required request parameter 'brandId' for method parameter type Integer is not present"));
+
+    }
+
+    @Test
+    void whenFindApplicablePrice_thenReturnThrowExceptionWhenProductIdIsMissing() throws Exception {
+        LocalDateTime applicationDate = LocalDateTime.of(2024, 2, 6, 10, 0);
+        int brandId = 2;
+
+        mockMvc.perform(get("/prices")
+                        .param("applicationDate", applicationDate.toString())
+                        .param("brandId", Integer.toString(brandId)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
+                .andExpect(content().string("An unexpected error occurred: Required request parameter 'productId' for method parameter type Integer is not present"));
+
+    }
+
+    @Test
+    void whenFindApplicablePrice_thenReturnThrowExceptionWhenApplicationDateIsMissing() throws Exception {
+        int productId = 1;
+        int brandId = 2;
+
+        mockMvc.perform(get("/prices")
+                        .param("productId", Integer.toString(productId))
+                        .param("brandId", Integer.toString(brandId)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
+                .andExpect(content().string("An unexpected error occurred: Required request parameter 'applicationDate' for method parameter type LocalDateTime is not present"));
+
+    }
+
+    @Test
+    void whenFindApplicablePrice_thenReturnThrowOtherException() throws Exception {
+        LocalDateTime applicationDate = LocalDateTime.of(2024, 2, 6, 10, 0);
+        int productId = 1;
+        String brandId = "a";
+
+        mockMvc.perform(get("/prices")
+                        .param("applicationDate", applicationDate.toString())
+                        .param("productId", Integer.toString(productId))
+                        .param("brandId", brandId))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
+                .andExpect(content().string("An unexpected error occurred: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; For input string: \"a\""));
+
     }
 
 }

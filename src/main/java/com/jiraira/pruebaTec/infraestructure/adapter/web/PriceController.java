@@ -1,6 +1,6 @@
 package com.jiraira.pruebaTec.infraestructure.adapter.web;
 
-import com.jiraira.pruebaTec.domain.port.PriceService;
+import com.jiraira.pruebaTec.domain.service.PriceService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

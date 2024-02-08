@@ -1,6 +1,7 @@
 package com.jiraira.pruebaTec.application.service;
 
 import com.jiraira.pruebaTec.application.dto.Price;
+import com.jiraira.pruebaTec.domain.exception.PriceNotFoundException;
 import com.jiraira.pruebaTec.infraestructure.adapter.repository.PriceRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,8 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -101,5 +101,19 @@ class PriceServiceImplTest {
 
         Optional<Price> priceResponse = priceService.findApplicablePrice(productId, brandId, applicationDate);
         assertEquals(priceResponse, Optional.of(expectedPrice));
+    }
+
+    @Test
+    void whenFindApplicablePrice_thenReturnEmptyOptionalWithThrow() throws PriceNotFoundException {
+        LocalDateTime applicationDate = LocalDateTime.of(2024, 2, 6, 10, 0);
+        Integer productId = 1;
+        Integer brandId = 2;
+        when(priceRepository.findPriceByProductIdBrandIdAndApplicationDate(productId, brandId, applicationDate))
+                .thenReturn(List.of());
+
+        assertThrows(PriceNotFoundException.class, () ->
+                        priceService.findApplicablePrice(productId, brandId, applicationDate),
+                "Expected PriceNotFoundException to be thrown when no price is found"
+        );
     }
 }

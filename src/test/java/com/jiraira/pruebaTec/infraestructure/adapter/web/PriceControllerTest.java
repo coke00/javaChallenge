@@ -1,7 +1,7 @@
 package com.jiraira.pruebaTec.infraestructure.adapter.web;
 
 import com.jiraira.pruebaTec.application.dto.Price;
-import com.jiraira.pruebaTec.domain.port.PriceService;
+import com.jiraira.pruebaTec.domain.service.PriceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
