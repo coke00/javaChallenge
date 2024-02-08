@@ -3,11 +3,10 @@ CREATE TABLE Brand (
    name VARCHAR(255) NOT NULL
 );
 CREATE TABLE Price (
-   id BIGINT AUTO_INCREMENT PRIMARY KEY,
+   price_list BIGINT AUTO_INCREMENT PRIMARY KEY,
    brand_id INT,
    start_date TIMESTAMP WITH TIME ZONE,
    end_date TIMESTAMP WITH TIME ZONE,
-   price_list INT,
    product_id INT,
    priority INT,
    price DECIMAL(10, 2),

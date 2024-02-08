@@ -2,73 +2,82 @@ package com.jiraira.pruebaTec.infraestructure.adapter.web;
 
 import com.jiraira.pruebaTec.application.dto.Price;
 import com.jiraira.pruebaTec.domain.port.PriceService;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Optional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
 class PriceControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
+    @InjectMocks
+    private PriceController priceController;
+    @Mock
     private PriceService priceService;
 
-    @BeforeAll
-    public static void setup() {
+
+    @BeforeEach
+    void setUp() {
         Locale.setDefault(Locale.US);
+
     }
 
     @Test
     public void testGetPriceReturnsPrice() throws Exception {
-        LocalDateTime applicationDate = LocalDateTime.of(2020, 6, 14, 10, 0);
+        LocalDateTime applicationDate = LocalDateTime.of(2020, 6, 14, 10, 0, 0);
         Integer productId = 35455;
         Integer brandId = 1;
 
-        Price price = Price.builder().price(new BigDecimal("35.50")).build();
+        Price mockPrice = Price.builder()
+                .brandId(1)
+                .startDate(LocalDateTime.parse("2020-06-14T00:00:00"))
+                .endDate(LocalDateTime.parse("2020-12-31T23:59:59"))
+                .priceList(1)
+                .productId(35455)
+                .priority(0)
+                .price(new BigDecimal("35.50"))
+                .curr("EUR")
+                .build();
 
-        Mockito.when(priceService.findApplicablePrice(productId, brandId, applicationDate))
-                .thenReturn(Optional.of(price));
+        when(priceService.findApplicablePrice(productId, brandId, applicationDate)).thenReturn(Optional.of(mockPrice));
 
-        mockMvc.perform(get("/prices")
-                        .param("applicationDate", applicationDate.toString())
-                        .param("productId", productId.toString())
-                        .param("brandId", brandId.toString()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.price").value("35.50"));
+        ResponseEntity<?> priceResponse = priceController.getPrice(applicationDate, productId, brandId);
+
+        assertEquals(HttpStatus.OK, priceResponse.getStatusCode(), "Debería haber una respuesta de estado");
+        assertEquals(mockPrice, priceResponse.getBody(), "Debería haber un precio devuelto");
+
     }
 
     @Test
-    public void testGetPriceEmptyResponse() throws Exception {
-        LocalDateTime applicationDate = LocalDateTime.of(2020, 6, 14, 10, 0);
+    public void testGetPriceReturnsEmpty() throws Exception {
+        LocalDateTime applicationDate = LocalDateTime.of(2020, 6, 14, 10, 0, 0);
         Integer productId = 35455;
         Integer brandId = 1;
 
-        Mockito.when(priceService.findApplicablePrice(productId, brandId, applicationDate))
-                .thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/prices")
-                        .param("applicationDate", applicationDate.toString())
-                        .param("productId", productId.toString())
-                        .param("brandId", brandId.toString()))
-                .andExpect(status().isNotFound());
+        when(priceService.findApplicablePrice(productId, brandId, applicationDate)).thenReturn(Optional.empty());
+
+        ResponseEntity<?> priceResponse = priceController.getPrice(applicationDate, productId, brandId);
+
+        assertEquals(HttpStatus.NOT_FOUND, priceResponse.getStatusCode(), "Debería haber una respuesta de estado");
+        assertFalse(priceResponse.hasBody(), "No debería tener body");
+
     }
+
+
 }

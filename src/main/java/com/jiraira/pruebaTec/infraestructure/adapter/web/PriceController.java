@@ -24,8 +24,8 @@ public class PriceController {
                                       @RequestParam("productId") Integer productId,
                                       @RequestParam("brandId") Integer brandId) {
 
-        return priceService.findApplicablePrice(productId, brandId, applicationDate)
-                .map(ResponseEntity::ok)
+
+        return priceService.findApplicablePrice(productId, brandId, applicationDate).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 }

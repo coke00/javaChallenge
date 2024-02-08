@@ -1,10 +1,8 @@
 package com.jiraira.pruebaTec.infraestructure.adapter.repository;
 
 import com.jiraira.pruebaTec.application.dto.Price;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
@@ -46,6 +44,7 @@ class PriceRepositoryTest {
         assertEquals(1, prices.size(), "Debería haber un precio devuelto");
         assertEquals(price.getPrice(), prices.get(0).getPrice(), "El precio devuelto debería coincidir con el precio esperado");
     }
+
     @Test
     void findPriceByProductIdBrandIdAndApplicationDate_ReturnEmpty() {
         List<Price> prices = priceRepository.findPriceByProductIdBrandIdAndApplicationDate(35455, 1, LocalDateTime.parse("2020-06-14T00:00:00"));

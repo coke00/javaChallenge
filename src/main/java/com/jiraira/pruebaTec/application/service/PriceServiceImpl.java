@@ -21,7 +21,6 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public Optional<Price> findApplicablePrice(Integer productId, Integer brandId, LocalDateTime applicationDate) {
 
-        return priceRepository.findPriceByProductIdBrandIdAndApplicationDate(productId, brandId, applicationDate)
-                .stream().max(Comparator.comparing(Price::getPriority));
+        return priceRepository.findPriceByProductIdBrandIdAndApplicationDate(productId, brandId, applicationDate).stream().max(Comparator.comparing(Price::getPriority));
     }
 }
