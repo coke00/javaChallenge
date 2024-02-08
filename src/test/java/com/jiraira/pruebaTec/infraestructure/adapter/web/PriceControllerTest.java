@@ -1,5 +1,6 @@
 package com.jiraira.pruebaTec.infraestructure.adapter.web;
 
+import com.jiraira.pruebaTec.application.dto.ApiResponse;
 import com.jiraira.pruebaTec.application.dto.Price;
 import com.jiraira.pruebaTec.domain.service.PriceService;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +19,6 @@ import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,13 +53,14 @@ class PriceControllerTest {
                 .price(new BigDecimal("35.50"))
                 .curr("EUR")
                 .build();
+        ApiResponse apiResponseMock = ApiResponse.builder().status(200).message("success").data(mockPrice).build();
 
         when(priceService.findApplicablePrice(productId, brandId, applicationDate)).thenReturn(Optional.of(mockPrice));
 
         ResponseEntity<?> priceResponse = priceController.getPrice(applicationDate, productId, brandId);
 
         assertEquals(HttpStatus.OK, priceResponse.getStatusCode(), "Debería haber una respuesta de estado");
-        assertEquals(mockPrice, priceResponse.getBody(), "Debería haber un precio devuelto");
+        assertEquals(apiResponseMock, priceResponse.getBody(), "Debería haber un precio devuelto");
 
     }
 
@@ -69,13 +70,14 @@ class PriceControllerTest {
         Integer productId = 35455;
         Integer brandId = 1;
 
+        ApiResponse apiResponseMock = ApiResponse.builder().status(404).message("Price not found").data(null).build();
 
         when(priceService.findApplicablePrice(productId, brandId, applicationDate)).thenReturn(Optional.empty());
 
         ResponseEntity<?> priceResponse = priceController.getPrice(applicationDate, productId, brandId);
 
         assertEquals(HttpStatus.NOT_FOUND, priceResponse.getStatusCode(), "Debería haber una respuesta de estado");
-        assertFalse(priceResponse.hasBody(), "No debería tener body");
+        assertEquals(apiResponseMock, priceResponse.getBody(), "No debería tener data en el body");
 
     }
 

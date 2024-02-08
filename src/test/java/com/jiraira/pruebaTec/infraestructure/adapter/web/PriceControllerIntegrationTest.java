@@ -40,7 +40,7 @@ class PriceControllerIntegrationTest {
                         .param("productId", Integer.toString(productId))
                         .param("brandId", Integer.toString(brandId)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.price").value("35.50"));
+                .andExpect(jsonPath("$.data.price").value("35.50"));
     }
 
 
@@ -70,12 +70,12 @@ class PriceControllerIntegrationTest {
                         .param("productId", Integer.toString(productId))
                         .param("brandId", Integer.toString(brandId)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.priceList").value(1))
-                .andExpect(jsonPath("$.priority").value(0))
-                .andExpect(jsonPath("$.productId").value(35455))
-                .andExpect(jsonPath("$.startDate").value("2020-06-14 00:00:00"))
-                .andExpect(jsonPath("$.endDate").value("2020-12-31 23:59:59"))
-                .andExpect(jsonPath("$.price").value("35.50"));
+                .andExpect(jsonPath("$.data.priceList").value(1))
+                .andExpect(jsonPath("$.data.priority").value(0))
+                .andExpect(jsonPath("$.data.productId").value(35455))
+                .andExpect(jsonPath("$.data.startDate").value("2020-06-14 00:00:00"))
+                .andExpect(jsonPath("$.data.endDate").value("2020-12-31 23:59:59"))
+                .andExpect(jsonPath("$.data.price").value("35.50"));
     }
 
     @Test
@@ -89,12 +89,12 @@ class PriceControllerIntegrationTest {
                         .param("productId", Integer.toString(productId))
                         .param("brandId", Integer.toString(brandId)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.priceList").value(2))
-                .andExpect(jsonPath("$.priority").value(1))
-                .andExpect(jsonPath("$.productId").value(35455))
-                .andExpect(jsonPath("$.startDate").value("2020-06-14 15:00:00"))
-                .andExpect(jsonPath("$.endDate").value("2020-06-14 18:30:00"))
-                .andExpect(jsonPath("$.price").value("25.45"));
+                .andExpect(jsonPath("$.data.priceList").value(2))
+                .andExpect(jsonPath("$.data.priority").value(1))
+                .andExpect(jsonPath("$.data.productId").value(35455))
+                .andExpect(jsonPath("$.data.startDate").value("2020-06-14 15:00:00"))
+                .andExpect(jsonPath("$.data.endDate").value("2020-06-14 18:30:00"))
+                .andExpect(jsonPath("$.data.price").value("25.45"));
     }
 
     @Test
@@ -109,12 +109,12 @@ class PriceControllerIntegrationTest {
                         .param("productId", Integer.toString(productId))
                         .param("brandId", Integer.toString(brandId)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.priceList").value(1))
-                .andExpect(jsonPath("$.priority").value(0))
-                .andExpect(jsonPath("$.productId").value(35455))
-                .andExpect(jsonPath("$.startDate").value("2020-06-14 00:00:00"))
-                .andExpect(jsonPath("$.endDate").value("2020-12-31 23:59:59"))
-                .andExpect(jsonPath("$.price").value("35.50"));
+                .andExpect(jsonPath("$.data.priceList").value(1))
+                .andExpect(jsonPath("$.data.priority").value(0))
+                .andExpect(jsonPath("$.data.productId").value(35455))
+                .andExpect(jsonPath("$.data.startDate").value("2020-06-14 00:00:00"))
+                .andExpect(jsonPath("$.data.endDate").value("2020-12-31 23:59:59"))
+                .andExpect(jsonPath("$.data.price").value("35.50"));
     }
 
     @Test
@@ -128,12 +128,12 @@ class PriceControllerIntegrationTest {
                         .param("productId", Integer.toString(productId))
                         .param("brandId", Integer.toString(brandId)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.priceList").value(3))
-                .andExpect(jsonPath("$.priority").value(1))
-                .andExpect(jsonPath("$.productId").value(35455))
-                .andExpect(jsonPath("$.startDate").value("2020-06-15 00:00:00"))
-                .andExpect(jsonPath("$.endDate").value("2020-06-15 11:00:00"))
-                .andExpect(jsonPath("$.price").value("30.50"));
+                .andExpect(jsonPath("$.data.priceList").value(3))
+                .andExpect(jsonPath("$.data.priority").value(1))
+                .andExpect(jsonPath("$.data.productId").value(35455))
+                .andExpect(jsonPath("$.data.startDate").value("2020-06-15 00:00:00"))
+                .andExpect(jsonPath("$.data.endDate").value("2020-06-15 11:00:00"))
+                .andExpect(jsonPath("$.data.price").value("30.50"));
     }
 
     @Test
@@ -147,12 +147,12 @@ class PriceControllerIntegrationTest {
                         .param("productId", Integer.toString(productId))
                         .param("brandId", Integer.toString(brandId)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.priceList").value(4))
-                .andExpect(jsonPath("$.priority").value(1))
-                .andExpect(jsonPath("$.productId").value(35455))
-                .andExpect(jsonPath("$.startDate").value("2020-06-15 16:00:00"))
-                .andExpect(jsonPath("$.endDate").value("2020-12-31 23:59:59"))
-                .andExpect(jsonPath("$.price").value("38.95"));
+                .andExpect(jsonPath("$.data.priceList").value(4))
+                .andExpect(jsonPath("$.data.priority").value(1))
+                .andExpect(jsonPath("$.data.productId").value(35455))
+                .andExpect(jsonPath("$.data.startDate").value("2020-06-15 16:00:00"))
+                .andExpect(jsonPath("$.data.endDate").value("2020-12-31 23:59:59"))
+                .andExpect(jsonPath("$.data.price").value("38.95"));
     }
 
     @Test
@@ -160,14 +160,15 @@ class PriceControllerIntegrationTest {
         LocalDateTime applicationDate = LocalDateTime.of(2024, 2, 6, 10, 0);
         int productId = 1;
         int brandId = 2;
-
         mockMvc.perform(get("/prices")
                         .param("applicationDate", applicationDate.toString())
                         .param("productId", Integer.toString(productId))
                         .param("brandId", Integer.toString(brandId)))
                 .andExpect(status().isNotFound())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-                .andExpect(content().string("Price not found: Applicable price not found for productId: 1, brandId: 2, and date: 2024-02-06T10:00"));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.message").value("Price not found: Applicable price not found for productId: 1, brandId: 2, and date: 2024-02-06T10:00"));
 
     }
 
@@ -180,9 +181,10 @@ class PriceControllerIntegrationTest {
                         .param("applicationDate", applicationDate.toString())
                         .param("productId", Integer.toString(productId)))
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-                .andExpect(content().string("An unexpected error occurred: Required request parameter 'brandId' for method parameter type Integer is not present"));
-
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value(500))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.message").value("An unexpected error occurred: Required request parameter 'brandId' for method parameter type Integer is not present"));
     }
 
     @Test
@@ -194,9 +196,10 @@ class PriceControllerIntegrationTest {
                         .param("applicationDate", applicationDate.toString())
                         .param("brandId", Integer.toString(brandId)))
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-                .andExpect(content().string("An unexpected error occurred: Required request parameter 'productId' for method parameter type Integer is not present"));
-
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value(500))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.message").value("An unexpected error occurred: Required request parameter 'productId' for method parameter type Integer is not present"));
     }
 
     @Test
@@ -208,9 +211,10 @@ class PriceControllerIntegrationTest {
                         .param("productId", Integer.toString(productId))
                         .param("brandId", Integer.toString(brandId)))
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-                .andExpect(content().string("An unexpected error occurred: Required request parameter 'applicationDate' for method parameter type LocalDateTime is not present"));
-
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value(500))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.message").value("An unexpected error occurred: Required request parameter 'applicationDate' for method parameter type LocalDateTime is not present"));
     }
 
     @Test
@@ -224,9 +228,10 @@ class PriceControllerIntegrationTest {
                         .param("productId", Integer.toString(productId))
                         .param("brandId", brandId))
                 .andExpect(status().isInternalServerError())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-                .andExpect(content().string("An unexpected error occurred: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; For input string: \"a\""));
-
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value(500))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.message").value("An unexpected error occurred: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; For input string: \"a\""));
     }
 
 }

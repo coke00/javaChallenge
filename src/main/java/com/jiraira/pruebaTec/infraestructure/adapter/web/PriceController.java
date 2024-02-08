@@ -1,5 +1,6 @@
 package com.jiraira.pruebaTec.infraestructure.adapter.web;
 
+import com.jiraira.pruebaTec.application.dto.ApiResponse;
 import com.jiraira.pruebaTec.domain.service.PriceService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +21,15 @@ public class PriceController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getPrice(@RequestParam("applicationDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime applicationDate,
-                                      @RequestParam("productId") Integer productId,
-                                      @RequestParam("brandId") Integer brandId) {
+    public ResponseEntity<ApiResponse> getPrice(@RequestParam("applicationDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime applicationDate,
+                                                @RequestParam("productId") Integer productId,
+                                                @RequestParam("brandId") Integer brandId) {
 
 
-        return priceService.findApplicablePrice(productId, brandId, applicationDate).map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return priceService.findApplicablePrice(productId, brandId, applicationDate)
+                .map(price -> ResponseEntity.ok(new ApiResponse(200, "success", price)))
+                .orElseGet(() -> ResponseEntity
+                        .status(404)
+                        .body(new ApiResponse(404, "Price not found", null)));
     }
 }

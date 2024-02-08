@@ -165,6 +165,61 @@ Respuesta
 Price not found: Applicable price not found for productId: 35455, brandId: 2, and date: 2020-06-14T19:00:59
 ```
 
+#### Curl cambio estructura
+
+Se realiza modificación y estandarización de respuesta
+modificación en test
+```
+    .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+    .andExpect(content().string("Price not found: Applicable price not found for productId: 1, brandId: 2, and date: 2024-02-06T10:00"));
+
+```
+Se reemplaza por 
+```
+    .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+    .andExpect(jsonPath("$.status").value(404))
+    .andExpect(jsonPath("$.data").isEmpty())
+    .andExpect(jsonPath("$.message").value("Price not found: Applicable price not found for productId: 1, brandId: 2, and date: 2024-02-06T10:00"));
+
+```
+En respuesta del servicio
+
+correcta
+
+```
+{
+    "status": 200,
+    "message": "success",
+    "data": {
+        "priceList": 1,
+        "brandId": 1,
+        "startDate": "2020-06-14 00:00:00",
+        "endDate": "2020-12-31 23:59:59",
+        "productId": 35455,
+        "priority": 0,
+        "price": "35,50",
+        "curr": "EUR"
+    }
+}
+```
+
+Correcta no encontrado
+```
+{
+    "status": 404,
+    "message": "Price not found: Applicable price not found for productId: 35455, brandId: 2, and date: 2020-06-14T19:00:59",
+    "data": null
+}
+```
+
+Error interno
+```
+{
+    "status": 500,
+    "message": "An unexpected error occurred: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; For input string: \"a\"",
+    "data": null
+}
+```
 ### Docker
 
 Para generar build de docker podemos:
