@@ -87,6 +87,10 @@ mvnw.cmd
 
 `mvn test`
 
+### Test con cobertura(jacoco)
+
+`mvn clean test`
+
 ### Build Maven
 
 `mvn package`
