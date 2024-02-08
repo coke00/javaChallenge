@@ -1,8 +1,43 @@
 # Información Importante 
 El siguiente repositorio está destinado para pruebas técnicas realizadas para Capitole y/o personas destinadas, el uso es confidencial.
 
+## Dependencias generales
 
-## Instalación MAVEN
+- Java 17
+- Maven
+- Docker
+
+## Java 17
+
+```
+https://jdk.java.net/17/
+```
+
+```
+Download (mac) 
+https://www.oracle.com/cl/java/technologies/downloads/#java17```
+
+```
+
+```
+Install (mac)
+$ cd ~/Downloads $ tar xf openjdk-17.0.2_osx-x64_bin.tar.gz
+```
+
+Configure sudo mv jdk-17.0.2.jdk /Library/Java/JavaVirtualMachines/
+
+```
+## JAVA_HOME
+```
+
+Configurar variable de entorno (ruta en mac para jdk-17, puede variar en otros SO)
+
+```
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home/
+```
+
+
+## Instalación MAVEN !OPCIONAL
 
 macOS
 ```
@@ -63,6 +98,14 @@ mvnw.cmd
 
 
 ## Servicios entregados
+### Server
+Los recursos están disponibles en el puerto: 8080
+para arrancar en otro puerto se puede modificar 
+```
+server:
+  port: 8080
+
+```
 ### Endpoints
 
 Se entrega siguiente **endpoint**:
@@ -77,7 +120,7 @@ Como parametria de consulta se detalla a continuación:
       * _T_: El separador de tiempo, indicando el inicio del componente de hora.
       * _19:00:59_: La componente hora está compuesta por la hora(19), los minutos(00) y los segundos(59), todos separados por dos puntos(traducido a ascii como %3A).
 
-Como respuesta tenemos internamente la identification que si existen 2 precios para una hora señalada se obtenga el que tiene una mayor prioridad, identificada en el campo __PRIORITY__, siendo el mas lejano a 0 el de mayor prioridad
+Como respuesta tenemos internamente la identification que si existen 2 precios para una hora señalada se obtenga el que tiene una mayor prioridad, identificada en el campo __PRIORITY__, siendo el más lejano a 0 el de mayor prioridad
 
 #### CURL V1
 
@@ -122,6 +165,30 @@ Respuesta
 Price not found: Applicable price not found for productId: 35455, brandId: 2, and date: 2020-06-14T19:00:59
 ```
 
+### Docker
+
+Para generar build de docker podemos:
+Generar build
+```
+docker build -t prueba-tec .
+```
+Arrancar contenedor
+```
+docker run -d --name prueba-tec-cont -p 8080:8080 prueba-tec
+```
+Detener contenedor
+```
+docker stop prueba-tec-cont
+```
+Analizar vulnerabilidades
+```
+docker scout quickview
+
+```
+
 ### Reference Documentation
 
+Vulnerabilidades conocidas y evaluadas con __Snyk.io__
+
+![img.png](assets_readme/img.png)
 
