@@ -81,6 +81,8 @@ Como respuesta tenemos internamente la identification que si existen 2 precios p
 
 #### CURL V1
 
+__Caso correcto__
+
 Request
 ```
 curl --location --request GET 'localhost:8080/prices?applicationDate=2020-06-14T19%3A00%3A59&productId=35455&brandId=1'
@@ -98,7 +100,27 @@ Respuesta
     "curr": "EUR"
 }
 ```
+__Caso Error__
 
+Request
+```
+curl --location --request GET 'localhost:8080/prices?applicationDate=2020-06-14T19%3A00%3A59&productId=35455&brandId=a'
+
+```
+Respuesta
+```
+An unexpected error occurred: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; For input string: "a"
+```
+__Caso precio no encontrado__
+
+Request
+```
+curl --location --request GET 'localhost:8080/prices?applicationDate=2020-06-14T19%3A00%3A59&productId=35455&brandId=2'
+```
+Respuesta
+```
+Price not found: Applicable price not found for productId: 35455, brandId: 2, and date: 2020-06-14T19:00:59
+```
 
 ### Reference Documentation
 
