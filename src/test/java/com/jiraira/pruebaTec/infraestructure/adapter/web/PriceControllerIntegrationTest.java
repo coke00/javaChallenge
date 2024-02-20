@@ -168,7 +168,7 @@ class PriceControllerIntegrationTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.message").value("Price not found: Applicable price not found for productId: 1, brandId: 2, and date: 2024-02-06T10:00"));
+                .andExpect(jsonPath("$.message").value("Price not found: Applicable price not found for productId: 1, brandId: 2, and date: 2024-02-06T10:00."));
 
     }
 
@@ -180,11 +180,11 @@ class PriceControllerIntegrationTest {
         mockMvc.perform(get("/prices")
                         .param("applicationDate", applicationDate.toString())
                         .param("productId", Integer.toString(productId)))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isNotFound())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status").value(500))
+                .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.message").value("An unexpected error occurred: Required request parameter 'brandId' for method parameter type Integer is not present"));
+                .andExpect(jsonPath("$.message").value("Price not found: Required request parameter 'brandId' for method parameter type Integer is not present"));
     }
 
     @Test
@@ -195,11 +195,11 @@ class PriceControllerIntegrationTest {
         mockMvc.perform(get("/prices")
                         .param("applicationDate", applicationDate.toString())
                         .param("brandId", Integer.toString(brandId)))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isNotFound())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status").value(500))
+                .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.message").value("An unexpected error occurred: Required request parameter 'productId' for method parameter type Integer is not present"));
+                .andExpect(jsonPath("$.message").value("Price not found: Required request parameter 'productId' for method parameter type Integer is not present"));
     }
 
     @Test
@@ -210,11 +210,11 @@ class PriceControllerIntegrationTest {
         mockMvc.perform(get("/prices")
                         .param("productId", Integer.toString(productId))
                         .param("brandId", Integer.toString(brandId)))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isNotFound())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status").value(500))
+                .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.message").value("An unexpected error occurred: Required request parameter 'applicationDate' for method parameter type LocalDateTime is not present"));
+                .andExpect(jsonPath("$.message").value("Price not found: Required request parameter 'applicationDate' for method parameter type LocalDateTime is not present"));
     }
 
     @Test
@@ -227,11 +227,11 @@ class PriceControllerIntegrationTest {
                         .param("applicationDate", applicationDate.toString())
                         .param("productId", Integer.toString(productId))
                         .param("brandId", brandId))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isNotFound())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.status").value(500))
+                .andExpect(jsonPath("$.status").value(404))
                 .andExpect(jsonPath("$.data").isEmpty())
-                .andExpect(jsonPath("$.message").value("An unexpected error occurred: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; For input string: \"a\""));
+                .andExpect(jsonPath("$.message").value("Price not found: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; For input string: \"a\""));
     }
 
 }

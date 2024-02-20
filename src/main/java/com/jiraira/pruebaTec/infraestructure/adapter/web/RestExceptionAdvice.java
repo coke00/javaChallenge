@@ -18,6 +18,6 @@ public class RestExceptionAdvice {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<Object> handleGenericException(Exception ex, WebRequest request) {
-        return new ResponseEntity<>(new ApiResultResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), String.format(Constants.MESSAGE_ERROR_INTERNAL, ex.getMessage()), null), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ApiResultResponse(HttpStatus.NOT_FOUND.value(), String.format(Constants.MESSAGE_ERROR_NOTFOUND, ex.getMessage()), null), HttpStatus.NOT_FOUND);
     }
 }
