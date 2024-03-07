@@ -1,11 +1,11 @@
-package com.jiraira.pruebaTec.infraestructure.configuration;
+package com.jiraira.pruebaTec.configuration;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.jiraira.pruebaTec.infraestructure.configuration.CustomBigDecimalSerializer;
+import com.jiraira.pruebaTec.domain.CustomBigDecimalSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

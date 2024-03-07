@@ -1,6 +1,8 @@
 package com.jiraira.pruebaTec.application.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Price {
+public class PriceDTO {
     @Id
     @Column(name="PRICE_LIST")
     private Integer priceList;

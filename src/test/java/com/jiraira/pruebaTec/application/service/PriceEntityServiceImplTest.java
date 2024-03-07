@@ -1,8 +1,9 @@
 package com.jiraira.pruebaTec.application.service;
 
-import com.jiraira.pruebaTec.application.dto.Price;
+import com.jiraira.pruebaTec.adapter.out.model.PriceEntity;
+import com.jiraira.pruebaTec.adapter.out.repostory.DbRepository;
+import com.jiraira.pruebaTec.application.PriceService;
 import com.jiraira.pruebaTec.domain.exception.PriceNotFoundException;
-import com.jiraira.pruebaTec.infraestructure.adapter.repository.PriceRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,20 +23,20 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-class PriceServiceImplTest {
+class PriceEntityServiceImplTest {
 
     @InjectMocks
-    private PriceServiceImpl priceService;
+    private PriceService priceService;
 
     @Mock
-    private PriceRepository priceRepository;
+    private DbRepository priceRepository;
 
     @Test
     void whenFindApplicablePrice_thenReturnSingleApplicablePrice() {
         LocalDateTime applicationDate = LocalDateTime.of(2024, 2, 6, 10, 0);
         Integer productId = 1;
         Integer brandId = 2;
-        Price expectedPrice = Price.builder()
+        PriceEntity expectedPriceEntity = PriceEntity.builder()
                 .brandId(1)
                 .startDate(LocalDateTime.parse("2020-06-13T00:00:00"))
                 .endDate(LocalDateTime.parse("2020-12-31T23:59:59"))
@@ -45,12 +46,12 @@ class PriceServiceImplTest {
                 .curr("EUR")
                 .build();
         when(priceRepository.findPriceByProductIdBrandIdAndApplicationDate(productId, brandId, applicationDate))
-                .thenReturn(Collections.singletonList(expectedPrice));
+                .thenReturn(Collections.singletonList(expectedPriceEntity));
 
-        Optional<Price> priceResponse = priceService.findApplicablePrice(productId, brandId, applicationDate);
+        Optional<PriceEntity> priceResponse = priceService.findApplicablePrice(productId, brandId, applicationDate);
         assertTrue(priceResponse.isPresent());
-        assertEquals(expectedPrice, priceResponse.get());
-        assertEquals(Optional.of(expectedPrice), priceResponse);
+        assertEquals(expectedPriceEntity, priceResponse.get());
+        assertEquals(Optional.of(expectedPriceEntity), priceResponse);
     }
 
     @Test
@@ -58,8 +59,8 @@ class PriceServiceImplTest {
         LocalDateTime applicationDate = LocalDateTime.of(2024, 2, 6, 10, 0);
         Integer productId = 1;
         Integer brandId = 2;
-        List<Price> expectedPriceList = new ArrayList<>();
-        Price price1 = Price.builder()
+        List<PriceEntity> expectedPriceListEntity = new ArrayList<>();
+        PriceEntity priceEntity1 = PriceEntity.builder()
                 .brandId(1)
                 .startDate(LocalDateTime.parse("2020-06-13T00:00:00"))
                 .endDate(LocalDateTime.parse("2020-12-31T23:59:59"))
@@ -69,7 +70,7 @@ class PriceServiceImplTest {
                 .price(new BigDecimal("30.50"))
                 .curr("EUR")
                 .build();
-        Price price2 = Price.builder()
+        PriceEntity priceEntity2 = PriceEntity.builder()
                 .brandId(1)
                 .startDate(LocalDateTime.parse("2020-06-13T00:00:00"))
                 .endDate(LocalDateTime.parse("2020-12-31T23:59:59"))
@@ -79,15 +80,15 @@ class PriceServiceImplTest {
                 .price(new BigDecimal("40.50"))
                 .curr("EUR")
                 .build();
-        expectedPriceList.add(price1);
-        expectedPriceList.add(price2);
+        expectedPriceListEntity.add(priceEntity1);
+        expectedPriceListEntity.add(priceEntity2);
         when(priceRepository.findPriceByProductIdBrandIdAndApplicationDate(productId, brandId, applicationDate))
-                .thenReturn(expectedPriceList);
+                .thenReturn(expectedPriceListEntity);
 
-        Optional<Price> priceResponse = priceService.findApplicablePrice(productId, brandId, applicationDate);
+        Optional<PriceEntity> priceResponse = priceService.findApplicablePrice(productId, brandId, applicationDate);
         assertTrue(priceResponse.isPresent());
-        assertEquals(expectedPriceList.get(1).getPriority(), priceResponse.get().getPriority());
-        assertEquals(Optional.of(expectedPriceList.get(1)), priceResponse);
+        assertEquals(expectedPriceListEntity.get(1).getPriority(), priceResponse.get().getPriority());
+        assertEquals(Optional.of(expectedPriceListEntity.get(1)), priceResponse);
     }
 
     @Test
@@ -95,12 +96,12 @@ class PriceServiceImplTest {
         LocalDateTime applicationDate = LocalDateTime.of(2024, 2, 6, 10, 0);
         Integer productId = 1;
         Integer brandId = 2;
-        Price expectedPrice = Price.builder().build();
+        PriceEntity expectedPriceEntity = PriceEntity.builder().build();
         when(priceRepository.findPriceByProductIdBrandIdAndApplicationDate(productId, brandId, applicationDate))
-                .thenReturn(Collections.singletonList(expectedPrice));
+                .thenReturn(Collections.singletonList(expectedPriceEntity));
 
-        Optional<Price> priceResponse = priceService.findApplicablePrice(productId, brandId, applicationDate);
-        assertEquals(priceResponse, Optional.of(expectedPrice));
+        Optional<PriceEntity> priceResponse = priceService.findApplicablePrice(productId, brandId, applicationDate);
+        assertEquals(priceResponse, Optional.of(expectedPriceEntity));
     }
 
     @Test

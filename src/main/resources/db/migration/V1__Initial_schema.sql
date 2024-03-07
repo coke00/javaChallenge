@@ -9,7 +9,7 @@ CREATE TABLE Price (
    end_date TIMESTAMP WITH TIME ZONE,
    product_id INT,
    priority INT,
-   price DECIMAL(10, 2),
+   priceEntity DECIMAL(10, 2),
    curr VARCHAR(3),
    CONSTRAINT fk_brand FOREIGN KEY (brand_id) REFERENCES Brand(id)
 );

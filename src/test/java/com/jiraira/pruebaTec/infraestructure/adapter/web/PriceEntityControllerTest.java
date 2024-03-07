@@ -1,8 +1,9 @@
 package com.jiraira.pruebaTec.infraestructure.adapter.web;
 
+import com.jiraira.pruebaTec.adapter.in.web.PriceController;
+import com.jiraira.pruebaTec.adapter.out.model.PriceEntity;
+import com.jiraira.pruebaTec.application.PriceService;
 import com.jiraira.pruebaTec.application.dto.ApiResultResponse;
-import com.jiraira.pruebaTec.application.dto.Price;
-import com.jiraira.pruebaTec.domain.service.PriceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-class PriceControllerTest {
+class PriceEntityControllerTest {
 
     @InjectMocks
     private PriceController priceController;
@@ -43,7 +44,7 @@ class PriceControllerTest {
         Integer productId = 35455;
         Integer brandId = 1;
 
-        Price mockPrice = Price.builder()
+        PriceEntity mockPriceEntity = PriceEntity.builder()
                 .brandId(1)
                 .startDate(LocalDateTime.parse("2020-06-14T00:00:00"))
                 .endDate(LocalDateTime.parse("2020-12-31T23:59:59"))
@@ -53,9 +54,9 @@ class PriceControllerTest {
                 .price(new BigDecimal("35.50"))
                 .curr("EUR")
                 .build();
-        ApiResultResponse apiResultResponseMock = ApiResultResponse.builder().status(200).message("success").data(mockPrice).build();
+        ApiResultResponse apiResultResponseMock = ApiResultResponse.builder().status(200).message("success").data(mockPriceEntity).build();
 
-        when(priceService.findApplicablePrice(productId, brandId, applicationDate)).thenReturn(Optional.of(mockPrice));
+        when(priceService.findApplicablePrice(productId, brandId, applicationDate)).thenReturn(Optional.of(mockPriceEntity));
 
         ResponseEntity<?> priceResponse = priceController.getPrice(applicationDate, productId, brandId);
 

@@ -1,4 +1,4 @@
-package com.jiraira.pruebaTec.infraestructure.configuration;
+package com.jiraira.pruebaTec.domain;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

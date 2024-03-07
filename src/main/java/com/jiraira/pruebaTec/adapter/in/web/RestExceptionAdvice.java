@@ -1,4 +1,4 @@
-package com.jiraira.pruebaTec.infraestructure.adapter.web;
+package com.jiraira.pruebaTec.adapter.in.web;
 
 import com.jiraira.pruebaTec.application.dto.ApiResultResponse;
 import com.jiraira.pruebaTec.application.utils.Constants;
